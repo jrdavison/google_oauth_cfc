@@ -40,7 +40,7 @@ References:
             <cfset header["alg"] = "RS256">
             <cfset header["typ"] = "JWT">
 
-            <cfset var JWT = base64urlEncode(serializeJSON(header))>
+            <cfset var JWT = base64urlEncode(inputString=serializeJSON(header))>
 
             <cfset var claim = orderedStruct.init()>
             <cfset claim["iss"] = authParams.client_email>
@@ -48,7 +48,7 @@ References:
             <cfset claim["aud"] = "https://www.googleapis.com/oauth2/v4/token">
             <cfset claim["exp"] = timestamp + 2400>
             <cfset claim["iat"] = timestamp>
-            <cfset JWT = "#JWT#.#base64urlEncode(serializeJSON(claim))#">
+            <cfset JWT = "#JWT#.#base64urlEncode(intputString=serializeJSON(claim))#">
 
             <!--- Strip delimiters from key --->
             <cfset var key = authParams.private_key>
@@ -56,10 +56,7 @@ References:
             <cfset key = reReplace(key, "-----END PRIVATE KEY-----", "", "all")>
             <cfset key = reReplace(key, "\n", "", "all")>
 
-            <cfinvoke method="encryptString" returnVariable="signature">
-                <cfinvokeargument name="inputString" value="#JWT#">
-                <cfinvokeargument name="key" value="#key#">
-            </cfinvoke>
+            <cfset var signature = encryptString(inputString=JWT, key=key)>
 
             <cfset JWT = "#JWT#.#signature#">
 
@@ -130,3 +127,4 @@ References:
     </cffunction>
 
 </cfcomponent>
+
