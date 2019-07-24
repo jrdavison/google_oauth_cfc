@@ -1,7 +1,5 @@
 <!---
 Author: jrdavison (jmsrdvsn@gmail.com)
-Date: 08/18/17
-Updated: 06/28/19
 
 References:
     https://developers.google.com/identity/protocols/OAuth2ServiceAccount
